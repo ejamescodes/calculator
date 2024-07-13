@@ -26,7 +26,7 @@ function changeNum(newNum){
     update();
 }
 
-function update(){;
+function update(){
     numField.textContent = num;
 }
 
