@@ -17,12 +17,36 @@ function divide(input1, input2){
     return Math.floor((input1/input2)*100)/100;
 }
 
-function update(newNum){
+function changeNum(newNum){
     if(num === 0){
         num = newNum;
     } else{
-        num = parseInt(`${num}+${newNum}`);
+        num = (num*10)+newNum;
     }
+    update();
+}
+
+function update(){;
+    numField.textContent = num;
+}
+
+function reset(){
+    num = 0
+    update()
+}
+
+function sign(){
+    numField.textContent = `-${num}`;
+    num = Math.sign(num);
+}
+
+function percent(){
+    num = num/100;
+    update()
+}
+
+function decimal(){
+    
 }
 
 //Calculator DOM
@@ -74,7 +98,7 @@ const btnSub = document.createElement("button");
 btn4.textContent = "4";
 btn5.textContent = "5";
 btn6.textContent = "6";
-btnSub.textContent = "-"
+btnSub.textContent = "-";
 row2.appendChild(btn4);
 row2.appendChild(btn5);
 row2.appendChild(btn6);
@@ -116,13 +140,57 @@ btnGrid.appendChild(row3);
 btnGrid.appendChild(row4);
 
 //button functions
-btn0.addEventListener("click", update(0));
-btn1.addEventListener("click", update(1));
-btn2.addEventListener("click", () => {
-    if(num === 0){
-        num = 2;
-    } else {
-        num = parseInt(`${num}+2`);
-    }
-});
+//number buttons
+btn9.onclick = () => changeNum(9);
+btn8.onclick = () => changeNum(8);
+btn7.onclick = () => changeNum(7);
+btn6.onclick = () => changeNum(6);
+btn5.onclick = () => changeNum(5);
+btn4.onclick = () => changeNum(4);
+btn3.onclick = () => changeNum(3);
+btn2.onclick = () => changeNum(2);
+btn1.onclick = () => changeNum(1);
+btn0.onclick = () => changeNum(0);
 
+//misc buttons
+btnAC.onclick = () => reset();
+btnSign.onclick = () => sign();
+btnPercent.onclick = () => percent();
+
+//arithmetic buttons
+let input1 = 0;
+let input2 = 0;
+let arithmetic = 0;
+
+function createOp(arith){
+    input1 = num;
+    arithmetic = arith;
+    num = 0;
+}
+
+btnAdd.onclick = () => createOp(1);
+btnSub.onclick = () => createOp(2);
+btnMult.onclick = () => createOp(3);
+btnDiv.onclick = () => createOp(4);
+
+btnEql.onclick = () => {
+    input2 = num;
+    switch(arithmetic){
+        case 1:
+            num = add(input1, input2);
+            update();
+            break;
+        case 2:
+            num = subtract(input1, input2);
+            update();
+            break;
+        case 3:
+            num = multiply(input1, input2);
+            update();
+            break;
+        case 4:
+            num = divide(input1, input2);
+            update();
+            break;
+    }
+}
