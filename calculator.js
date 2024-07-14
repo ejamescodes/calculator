@@ -177,29 +177,34 @@ btnDiv.onclick = () => createOp(4);
 
 function operate(){
     inputs.push(num);
-    output = inputs.pop();
-    while(operations.length != 0){
-        let op = operations.pop();
-        let secondNum = inputs.pop();
-        switch(op){
-            case 1:
-                output = add(output, secondNum);
-                break;
-            case 2:
-                output = subtract(output, secondNum);
-                break;
-            case 3:
-                output = multiply(output, secondNum);
-                break;
-            case 4:
-                output = divide(output, secondNum);
-                break;
+    if(inputs.length+1 === operations.length){
+        output = inputs.pop();
+        while(operations.length != 0){
+            let op = operations.pop();
+            let secondNum = inputs.pop();
+            switch(op){
+                case 1:
+                    output = add(output, secondNum);
+                    break;
+                case 2:
+                    output = subtract(output, secondNum);
+                    break;
+                case 3:
+                    output = multiply(output, secondNum);
+                    break;
+                case 4:
+                    output = divide(output, secondNum);
+                    break;
+            }
         }
+        num = output;
+        inputs = [];
+        operations = [];
+        update();
+    } else {
+        reset();
+        numField.textContent = "INV OP"
     }
-    num = output;
-    inputs = [];
-    operations = [];
-    update();
 }
 btnEql.onclick = () => {
     operate();
