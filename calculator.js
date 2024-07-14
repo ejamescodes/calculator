@@ -32,6 +32,8 @@ function update(){
 
 function reset(){
     num = 0
+    inputs = [];
+    operations = [];
     update()
 }
 
@@ -158,13 +160,12 @@ btnSign.onclick = () => sign();
 btnPercent.onclick = () => percent();
 
 //arithmetic buttons
-let input1 = 0;
-let input2 = 0;
-let arithmetic = 0;
+let inputs = [];
+let operations = [];
 
 function createOp(arith){
-    input1 = num;
-    arithmetic = arith;
+    inputs.push(num);
+    operations.push(arith);
     num = 0;
 }
 
@@ -173,24 +174,33 @@ btnSub.onclick = () => createOp(2);
 btnMult.onclick = () => createOp(3);
 btnDiv.onclick = () => createOp(4);
 
-btnEql.onclick = () => {
-    input2 = num;
-    switch(arithmetic){
-        case 1:
-            num = add(input1, input2);
-            update();
-            break;
-        case 2:
-            num = subtract(input1, input2);
-            update();
-            break;
-        case 3:
-            num = multiply(input1, input2);
-            update();
-            break;
-        case 4:
-            num = divide(input1, input2);
-            update();
-            break;
+
+function operate(){
+    inputs.push(num);
+    output = inputs.pop();
+    while(operations.length != 0){
+        let op = operations.pop();
+        let secondNum = inputs.pop();
+        switch(op){
+            case 1:
+                output = add(output, secondNum);
+                break;
+            case 2:
+                output = subtract(output, secondNum);
+                break;
+            case 3:
+                output = multiply(output, secondNum);
+                break;
+            case 4:
+                output = divide(output, secondNum);
+                break;
+        }
     }
+    num = output;
+    inputs = [];
+    operations = [];
+    update();
 }
+btnEql.onclick = () => {
+    operate();
+};
