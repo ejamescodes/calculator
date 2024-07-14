@@ -193,7 +193,11 @@ function operate(){
                     output = multiply(output, secondNum);
                     break;
                 case 4:
-                    output = divide(output, secondNum);
+                    if(secondNum != 0){
+                        output = divide(output, secondNum);
+                    } else {
+                        output = "DIV BY 0"
+                    }
                     break;
             }
         }
